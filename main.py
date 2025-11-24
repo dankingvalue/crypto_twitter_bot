@@ -1,7 +1,6 @@
 """
 Crypto Twitter Bot - Main Entry Point
 """
-import utils.imghdr_fix
 import os
 import sys
 import logging
