@@ -9,6 +9,12 @@ import signal
 import threading
 from datetime import datetime
 
+# Workaround for imghdr removal in Python 3.13
+try:
+    import imghdr
+except ImportError:
+    imghdr = None
+
 # Add project root to path
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, PROJECT_ROOT)
@@ -21,6 +27,8 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+logger.info(f"Python version: {sys.version}")
+logger.info(f"Project root: {PROJECT_ROOT}")
 
 # Import components
 try:
@@ -33,6 +41,8 @@ try:
     logger.info("✅ All imports successful!")
 except ImportError as e:
     logger.error(f"❌ Import error: {e}")
+    import traceback
+    traceback.print_exc()
     sys.exit(1)
 
 

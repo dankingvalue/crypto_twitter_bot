@@ -38,3 +38,4 @@ psutil==5.9.6
 
 # Monitoring
 sentry-sdk==1.38.0
+pillow>=10.0.0
