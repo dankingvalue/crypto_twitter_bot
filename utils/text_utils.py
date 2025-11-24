@@ -1,3 +1,4 @@
+"""Text utilities"""
 import re
 
 class TextUtils:
@@ -10,3 +11,7 @@ class TextUtils:
     @staticmethod
     def extract_hashtags(text):
         return re.findall(r'#\w+', text)
+    
+    @staticmethod
+    def clean_text(text):
+        return re.sub(r'\s+', ' ', text).strip()
