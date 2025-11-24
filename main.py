@@ -38,7 +38,6 @@ except ImportError as e:
     traceback.print_exc()
     sys.exit(1)
 
-
 class BotOrchestrator:
     def __init__(self):
         self.running = False
@@ -82,6 +81,14 @@ class BotOrchestrator:
             return False
     
     def start_web_server(self):
+        """Start Flask server only if not running under gunicorn"""
+        # Check if running under gunicorn
+        if 'gunicorn' in os.getenv('SERVER_SOFTWARE', '').lower() or \
+           os.getenv('GUNICORN_CMD_ARGS') or \
+           'gunicorn' in ' '.join(sys.argv):
+            logger.info("🌐 Running under gunicorn - skipping Flask server startup")
+            return
+        
         def run_server():
             try:
                 from web.app import app
@@ -117,10 +124,10 @@ class BotOrchestrator:
     def shutdown(self, signum=None, frame=None):
         if not self.running:
             return
+        
         logger.info("🛑 Shutting down...")
         self.running = False
         sys.exit(0)
-
 
 if __name__ == '__main__':
     bot = BotOrchestrator()
