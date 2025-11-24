@@ -1,0 +1,40 @@
+# Core Twitter
+tweepy==4.14.0
+python-dotenv==1.0.0
+
+# Web Server (for UptimeRobot)
+flask==3.0.0
+gunicorn==21.2.0
+
+# Database
+psycopg2-binary==2.9.9
+sqlalchemy==2.0.23
+
+# AI (OpenAI only)
+openai==1.3.7
+
+# NLP (lightweight sentiment analysis)
+textblob==0.17.1
+vaderSentiment==3.3.2
+
+# Scraping
+beautifulsoup4==4.12.2
+requests==2.31.0
+praw==7.7.1
+feedparser==6.0.10
+
+# Data processing
+pandas>=2.2.0
+
+# Scheduling
+schedule==1.2.0
+APScheduler==3.10.4
+
+# Utilities
+pytz==2023.3
+humanize==4.9.0
+python-dateutil==2.8.2
+psutil==5.9.6
+
+# Monitoring
+sentry-sdk==1.38.0
