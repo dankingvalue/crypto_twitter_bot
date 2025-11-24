@@ -9,12 +9,6 @@ import signal
 import threading
 from datetime import datetime
 
-# Workaround for imghdr removal in Python 3.13
-try:
-    import imghdr
-except ImportError:
-    imghdr = None
-
 # Add project root to path
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, PROJECT_ROOT)
