@@ -11,26 +11,67 @@ class SmartScheduler:
         self.tweet_manager = tweet_manager
         self.reply_handler = reply_handler
         self.thread_builder = thread_builder
+        
+        # Import content generator
+        try:
+            from core.content_generator import ContentGenerator
+            self.content_gen = ContentGenerator()
+            logger.info("✅ Content generator initialized")
+        except ImportError:
+            logger.warning("⚠️ Content generator not found, using fallback")
+            self.content_gen = None
+        
         logger.info("Scheduler initialized")
     
     def post_regular_tweet(self):
         """Post a regular crypto update tweet"""
         try:
             logger.info("📝 Posting regular tweet...")
-            # Your tweet posting logic here
-            # Example: self.tweet_manager.post_tweet()
-            logger.info("✅ Tweet posted successfully")
+            
+            # Generate content
+            if self.content_gen:
+                tweet_content = self.content_gen.generate_regular_tweet()
+            else:
+                # Fallback content if no generator
+                tweet_content = f"🔥 Crypto market update {datetime.now().strftime('%H:%M UTC')} - Stay informed, stay ahead! #Crypto"
+            
+            # Post to Twitter
+            tweet_id = self.tweet_manager.post_tweet(tweet_content, content_type='regular')
+            
+            if tweet_id:
+                logger.info(f"✅ Tweet posted successfully! ID: {tweet_id}")
+            else:
+                logger.error("❌ Tweet posting returned None")
+                
         except Exception as e:
             logger.error(f"❌ Failed to post tweet: {e}")
+            import traceback
+            traceback.print_exc()
     
     def post_market_update(self):
         """Post market analysis/update"""
         try:
             logger.info("📊 Posting market update...")
-            # Your market update logic here
-            logger.info("✅ Market update posted")
+            
+            # Generate market update content
+            if self.content_gen:
+                tweet_content = self.content_gen.generate_market_update()
+            else:
+                time_of_day = "Morning" if datetime.now().hour < 12 else "Evening"
+                tweet_content = f"📈 {time_of_day} Market Update:\n\nCrypto markets showing activity. Key levels to watch 👀\n\n#Crypto #MarketAnalysis"
+            
+            # Post to Twitter
+            tweet_id = self.tweet_manager.post_tweet(tweet_content, content_type='market_update')
+            
+            if tweet_id:
+                logger.info(f"✅ Market update posted! ID: {tweet_id}")
+            else:
+                logger.error("❌ Market update posting returned None")
+                
         except Exception as e:
             logger.error(f"❌ Failed to post market update: {e}")
+            import traceback
+            traceback.print_exc()
     
     def check_replies(self):
         """Check and respond to mentions/replies"""
